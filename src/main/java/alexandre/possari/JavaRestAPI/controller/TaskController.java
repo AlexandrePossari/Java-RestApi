@@ -20,9 +20,8 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<String> list() {
-        log.info("teste");
-        return ResponseEntity.ok("teste");
+    public ResponseEntity<List<Task>> list() {
+        return ResponseEntity.ok(taskService.listAll());
     }
 
     @PostMapping
