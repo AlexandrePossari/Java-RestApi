@@ -1,6 +1,7 @@
 package alexandre.possari.JavaRestAPI.service;
 
 import alexandre.possari.JavaRestAPI.domain.Task;
+import alexandre.possari.JavaRestAPI.mapper.TaskMapper;
 import alexandre.possari.JavaRestAPI.repository.TaskRepository;
 import alexandre.possari.JavaRestAPI.requests.TaskPostRequestBody;
 import alexandre.possari.JavaRestAPI.requests.TaskPutRequestBody;
@@ -27,22 +28,13 @@ public class TaskService {
     }
 
     public Task save(TaskPostRequestBody taskPostRequestBody) {
-        return taskRepository.save(Task.builder().title(taskPostRequestBody.getTitle())
-                        .description(taskPostRequestBody.getDescription())
-                        .dueDate(taskPostRequestBody.getDueDate())
-                        .status(taskPostRequestBody.getStatus())
-                .build());
+        return taskRepository.save(TaskMapper.INSTANCE.toTask(taskPostRequestBody));
     }
 
     public void replace(TaskPutRequestBody taskPutRequestBody) {
         Task savedTask = findByIdOrThrowBadRequestException(taskPutRequestBody.getId());
-        Task task = Task.builder()
-                .id(savedTask.getId())
-                .title(taskPutRequestBody.getTitle())
-                .description(taskPutRequestBody.getDescription())
-                .dueDate(taskPutRequestBody.getDueDate())
-                .status(taskPutRequestBody.getStatus())
-                .build();
+        Task task = TaskMapper.INSTANCE.toTask(taskPutRequestBody);
+        task.setId(savedTask.getId());
         taskRepository.save(task);
     }
 
