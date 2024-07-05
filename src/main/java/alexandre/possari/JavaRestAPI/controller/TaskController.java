@@ -2,6 +2,7 @@ package alexandre.possari.JavaRestAPI.controller;
 
 import alexandre.possari.JavaRestAPI.domain.Task;
 import alexandre.possari.JavaRestAPI.requests.TaskPostRequestBody;
+import alexandre.possari.JavaRestAPI.requests.TaskPutRequestBody;
 import alexandre.possari.JavaRestAPI.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,5 +33,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> save(@RequestBody TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody TaskPutRequestBody taskPutRequestBody) {
+        taskService.replace(taskPutRequestBody);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
