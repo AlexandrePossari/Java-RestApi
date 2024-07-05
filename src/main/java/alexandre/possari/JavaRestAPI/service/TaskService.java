@@ -45,4 +45,9 @@ public class TaskService {
                 .build();
         taskRepository.save(task);
     }
+
+    public void delete(long id) {
+        taskRepository.delete(findByIdOrThrowBadRequestException(id));
+    }
+
 }
