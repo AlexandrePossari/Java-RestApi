@@ -24,6 +24,11 @@ public class TaskController {
         return ResponseEntity.ok(taskService.listAll());
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Task> findById(@PathVariable long id) {
+        return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
+    }
+
     @PostMapping
     public ResponseEntity<Task> save(@RequestBody TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
