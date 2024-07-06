@@ -1,6 +1,7 @@
 package alexandre.possari.JavaRestAPI.service;
 
 import alexandre.possari.JavaRestAPI.domain.Task;
+import alexandre.possari.JavaRestAPI.exception.BadRequestException;
 import alexandre.possari.JavaRestAPI.mapper.TaskMapper;
 import alexandre.possari.JavaRestAPI.repository.TaskRepository;
 import alexandre.possari.JavaRestAPI.requests.TaskPostRequestBody;
@@ -24,7 +25,7 @@ public class TaskService {
 
     public Task findByIdOrThrowBadRequestException(long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task not Found"));
+                .orElseThrow(() -> new BadRequestException("Task not Found"));
     }
 
     public List<Task> findByTitle(String title) {
