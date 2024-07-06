@@ -27,6 +27,10 @@ public class TaskService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task not Found"));
     }
 
+    public List<Task> findByTitle(String title) {
+        return taskRepository.findByTitle(title);
+    }
+
     public Task save(TaskPostRequestBody taskPostRequestBody) {
         return taskRepository.save(TaskMapper.INSTANCE.toTask(taskPostRequestBody));
     }
