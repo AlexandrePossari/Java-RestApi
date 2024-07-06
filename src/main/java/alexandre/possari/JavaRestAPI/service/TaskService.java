@@ -9,6 +9,7 @@ import alexandre.possari.JavaRestAPI.requests.TaskPutRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class TaskService {
         return taskRepository.findByTitle(title);
     }
 
+    @Transactional
     public Task save(TaskPostRequestBody taskPostRequestBody) {
         return taskRepository.save(TaskMapper.INSTANCE.toTask(taskPostRequestBody));
     }
