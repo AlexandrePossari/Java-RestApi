@@ -7,6 +7,8 @@ import alexandre.possari.JavaRestAPI.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,8 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<Task>> list() {
-        return ResponseEntity.ok(taskService.listAll());
+    public ResponseEntity<Page<Task>> list(Pageable pageable) {
+        return ResponseEntity.ok(taskService.listAll(pageable));
     }
 
     @GetMapping(path = "/{id}")

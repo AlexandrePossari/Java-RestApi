@@ -7,6 +7,8 @@ import alexandre.possari.JavaRestAPI.repository.TaskRepository;
 import alexandre.possari.JavaRestAPI.requests.TaskPostRequestBody;
 import alexandre.possari.JavaRestAPI.requests.TaskPutRequestBody;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,8 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public List<Task> listAll(){
-        return taskRepository.findAll();
+    public Page<Task> listAll(Pageable pageable){
+        return taskRepository.findAll(pageable);
     }
 
     public Task findByIdOrThrowBadRequestException(long id) {
