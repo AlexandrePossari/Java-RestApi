@@ -1,6 +1,7 @@
 package alexandre.possari.JavaRestAPI.repository;
 
 import alexandre.possari.JavaRestAPI.domain.Task;
+import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,16 @@ class TaskRepositoryTest {
     @Autowired
     private TaskRepository taskRepository;
 
+    private Task createTask(){
+        LocalDate date = LocalDate.of(2024, 12, 21);;
+        return Task.builder()
+                .title("JPA Test")
+                .description("JPA Test")
+                .status("Done")
+                .dueDate(date)
+                .build();
+    }
+
     @Test
     @DisplayName("Save creates task when Successful")
     void save_PersistTask_WhenSuccessful(){
@@ -28,16 +39,6 @@ class TaskRepositoryTest {
         Assertions.assertThat(taskSaved.getId()).isNotNull();
         Assertions.assertThat(taskSaved.getTitle()).isEqualTo(taskToBeSaved.getTitle());
 
-    }
-
-    private Task createTask(){
-        LocalDate date = LocalDate.of(2024, 12, 21);;
-        return Task.builder()
-                .title("JPA Test")
-                .description("JPA Test")
-                .status("Done")
-                .dueDate(date)
-                .build();
     }
 
     @Test
@@ -82,6 +83,16 @@ class TaskRepositoryTest {
         List<Task> tasks = this.taskRepository.findByTitle("Does not exist");
 
         Assertions.assertThat(tasks).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Save throw ConstraintViolationException when title is empty")
+    void save_ThrowsConstraintViolationException_WhenTitleIsEmpty(){
+        Task task = new Task();
+
+        Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
+                .isThrownBy(() -> this.taskRepository.save(task))
+                .withMessageContaining("The task title cannot be empty");
     }
 
 }
