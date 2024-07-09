@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,6 +62,18 @@ class TaskRepositoryTest {
         Optional<Task> taskOptional = this.taskRepository.findById(taskSaved.getId());
 
         Assertions.assertThat(taskOptional).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Find By Name returns list of task when Successful")
+    void findByName_ReturnsListOfAnime_WhenSuccessful(){
+        Task taskToBeSaved = createTask();
+        Task taskSaved = this.taskRepository.save(taskToBeSaved);
+        String title = taskSaved.getTitle();
+        List<Task> tasks = this.taskRepository.findByTitle(title);
+
+        Assertions.assertThat(tasks).isNotEmpty();
+        Assertions.assertThat(tasks).contains(taskSaved);
     }
 
 }
