@@ -1,6 +1,7 @@
 package alexandre.possari.JavaRestAPI.repository;
 
 import alexandre.possari.JavaRestAPI.domain.Task;
+import alexandre.possari.JavaRestAPI.util.TaskCreator;
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,22 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Tests for Task Repository")
 class TaskRepositoryTest {
     @Autowired
-    private TaskRepository taskRepository;
-
-    private Task createTask(){
-        LocalDate date = LocalDate.of(2024, 12, 21);;
-        return Task.builder()
-                .title("JPA Test")
-                .description("JPA Test")
-                .status("Done")
-                .dueDate(date)
-                .build();
-    }
+    private TaskRepository taskRepository;    
 
     @Test
     @DisplayName("Save creates task when Successful")
     void save_PersistTask_WhenSuccessful(){
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         Assertions.assertThat(taskSaved).isNotNull();
         Assertions.assertThat(taskSaved.getId()).isNotNull();
@@ -44,7 +35,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Save updates task when Successful")
     void save_UpdatesTask_WhenSuccessful(){
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         taskSaved.setTitle("Updated title");
         Task taskUpdated = this.taskRepository.save(taskSaved);
@@ -57,7 +48,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Delete removes task when Successful")
     void delete_RemovesTask_WhenSuccessful(){
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         this.taskRepository.delete(taskSaved);
         Optional<Task> taskOptional = this.taskRepository.findById(taskSaved.getId());
@@ -68,7 +59,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Find By Title returns list of task when Successful")
     void findByTitle_ReturnsListOfTask_WhenSuccessful(){
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         String title = taskSaved.getTitle();
         List<Task> tasks = this.taskRepository.findByTitle(title);
