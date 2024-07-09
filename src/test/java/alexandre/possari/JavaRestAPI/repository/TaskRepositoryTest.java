@@ -55,7 +55,7 @@ class TaskRepositoryTest {
 
     @Test
     @DisplayName("Delete removes task when Successful")
-    void delete_RemovesAnime_WhenSuccessful(){
+    void delete_RemovesTask_WhenSuccessful(){
         Task taskToBeSaved = createTask();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         this.taskRepository.delete(taskSaved);
@@ -65,8 +65,8 @@ class TaskRepositoryTest {
     }
 
     @Test
-    @DisplayName("Find By Name returns list of task when Successful")
-    void findByName_ReturnsListOfAnime_WhenSuccessful(){
+    @DisplayName("Find By Title returns list of task when Successful")
+    void findByTitle_ReturnsListOfTask_WhenSuccessful(){
         Task taskToBeSaved = createTask();
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
         String title = taskSaved.getTitle();
@@ -74,6 +74,14 @@ class TaskRepositoryTest {
 
         Assertions.assertThat(tasks).isNotEmpty();
         Assertions.assertThat(tasks).contains(taskSaved);
+    }
+
+    @Test
+    @DisplayName("Find By Title returns empty list when no task is found")
+    void findByTitle_ReturnsEmptyList_WhenTaskIsNotFound(){
+        List<Task> tasks = this.taskRepository.findByTitle("Does not exist");
+
+        Assertions.assertThat(tasks).isEmpty();
     }
 
 }
