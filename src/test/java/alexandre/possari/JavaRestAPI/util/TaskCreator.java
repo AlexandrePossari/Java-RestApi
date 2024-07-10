@@ -26,7 +26,7 @@ public class TaskCreator {
                 .build();
     }
 
-    public static Task createValidUpdatedAnime(){
+    public static Task createValidUpdatedTask(){
         LocalDate date = LocalDate.of(2024, 12, 21);;
         return Task.builder()
                 .id(1L)

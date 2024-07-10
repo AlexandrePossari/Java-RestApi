@@ -3,11 +3,13 @@ package alexandre.possari.JavaRestAPI.requests;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 public class TaskPutRequestBody {
     private long id;
     @NotEmpty(message = "The task title cannot be empty")
