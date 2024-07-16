@@ -7,6 +7,7 @@ import alexandre.possari.JavaRestAPI.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<Page<Task>> list(Pageable pageable) {
+    public ResponseEntity<Page<Task>> list(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(taskService.listAll(pageable));
     }
 
