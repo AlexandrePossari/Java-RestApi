@@ -15,5 +15,20 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring_boot_app
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/taskManager
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
 volumes:
   mysql_data:
